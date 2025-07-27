@@ -1,4 +1,4 @@
-import { useStatusParam } from "../../../hooks/use.status.param";
+import { useStatusParam } from "../../hooks/use.status.param";
 
 export function TaskFilter() {
   const status = useStatusParam();

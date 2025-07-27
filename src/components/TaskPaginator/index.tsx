@@ -7,7 +7,6 @@ const TaskPaginator: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-
   };
 
   return (

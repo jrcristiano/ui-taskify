@@ -2,11 +2,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/svg/logo.svg';
 import { useStatusParam } from '../../hooks/use.status.param';
 
-type SidebarProps = {
-  activeTab: 'Pendentes' | 'Concluídas';
-};
-
-export function Sidebar({ activeTab }: SidebarProps) {
+export function PersistentDrawer() {
   const status = useStatusParam();
 
   return (

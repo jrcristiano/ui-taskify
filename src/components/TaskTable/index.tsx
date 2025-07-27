@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react';
-import type { ITableData } from '../../../common/interfaces/ITableData';
-import type { ITableProps } from '../../../common/interfaces/ITableProps';
-import type { OrderDirection } from '../../../common/types/OrderDirection';
-import { TaskFilter } from '../../@Filters/TaskFilter';
-import { TextEllipsis } from '../../@Texts/TextEllipsis';
+import type { ITableData } from '../../common/interfaces/ITableData';
+import type { ITableProps } from '../../common/interfaces/ITableProps';
+import type { OrderDirection } from '../../common/types/OrderDirection';
+import { TaskFilter } from '../TaskFilter';
+import { TextEllipsis } from '../TextEllipsis';
 import { Link } from 'react-router-dom';
-import type { Id } from '../../../common/types/Id';
+import type { Id } from '../../common/types/Id';
 
 const statusColors = {
   'Pendente': 'bg-yellow-100 text-yellow-700',

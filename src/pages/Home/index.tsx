@@ -1,8 +1,8 @@
 import type { ITableColumn } from "../../common/interfaces/ITableColumn";
 import type { ITableData } from "../../common/interfaces/ITableData";
 import type { ITask } from "../../common/interfaces/ITask";
-import TaskPaginator from "../../components/@Paginators/TaskPaginator";
-import { TaskTable } from "../../components/@Tables/TaskTable";
+import TaskPaginator from "../../components/TaskPaginator";
+import { TaskTable } from "../../components/TaskTable";
 
 export default function Home() {
   const columns: ITableColumn<ITask>[] = [
