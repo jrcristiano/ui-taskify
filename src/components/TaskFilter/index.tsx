@@ -22,7 +22,8 @@ export function TaskFilter() {
         </option>
         <option
           selected={status === 'Pendentes'}
-          value="Pendentes">
+          value="Pendentes"
+        >
           Pendentes
         </option>
         <option

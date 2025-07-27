@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { PersistentDrawer } from '../components/PersistentDrawer'
+import { ToastContainer } from "react-toastify";
 
 export default function DefaultLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -32,11 +33,10 @@ export default function DefaultLayout() {
             </div>
           </div>
         </header>
-
-        {/* Conteúdo */}
         <main className="flex-1 overflow-y-auto mt-4 px-4">
           <Outlet />
         </main>
+        <ToastContainer />
       </div>
     </div>
   );

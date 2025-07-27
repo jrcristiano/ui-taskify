@@ -1,0 +1,19 @@
+services:
+
+  app:
+    container_name: taskify_ui
+    build: .
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:3000}
+    restart: unless-stopped
+    networks:
+      - api_taskify_network
+
+networks:
+  api_taskify_network:
+    external: true

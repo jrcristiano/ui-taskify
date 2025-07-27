@@ -8,11 +8,14 @@ import { createBrowserRouter, RouterProvider, type RouteObject } from 'react-rou
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 
 import AuthLayout from './layouts/AuthLayout';
-import Login from './pages/Auth/Login';
+import LoginPage from './pages/Auth/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import DefaultLayout from './layouts/DefaultLayout';
-import Home from './pages/Home';
-const Register = lazy(() => import('./pages/Auth/Register'));
+
+const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
+const PaginatedTaskPage = lazy(() => import('./pages/Tasks/PaginatedTaskPage'));
+const CreateTaskPage = lazy(() => import('./pages/Tasks/CreateTaskPage'));
+const EditTaskPage = lazy(() => import('./pages/Tasks/EditTaskPage'));
 
 const routes: RouteObject[] = [
   {
@@ -27,7 +30,23 @@ const routes: RouteObject[] = [
         index: true,
         element: (
           <Suspense fallback={<p>Carregando...</p>}>
-            <Home />
+            <PaginatedTaskPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/task/create',
+        element: (
+          <Suspense fallback={<p>Carregando...</p>}>
+            <CreateTaskPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/task/:id/edit',
+        element: (
+          <Suspense fallback={<p>Carregando...</p>}>
+            <EditTaskPage />
           </Suspense>
         ),
       },
@@ -39,19 +58,19 @@ const routes: RouteObject[] = [
     children: [
       {
         path: 'login',
-        element: <Login />,
+        element: <LoginPage />,
       },
       {
         path: 'register',
         element: (
-          <Suspense fallback={<div>Carregando registro...</div>}>
-            <Register />
+          <Suspense fallback={<div>Carregando...</div>}>
+            <RegisterPage />
           </Suspense>
         ),
       },
       {
         index: true,
-        element: <Login />,
+        element: <LoginPage />,
       },
     ],
   },

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function Register() {
+export default function RegisterPage() {
   return (
     <div>
       <h1 className="text-3xl font-semibold mb-6">Criar conta</h1>

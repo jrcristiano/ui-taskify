@@ -1,7 +1,12 @@
+import type { Id } from "react-toastify";
+
 export interface TaskTableDataInterface {
   id: string;
   title: string;
   description: string;
-  status: 'Pendente' | 'Concluída';
+  status: {
+    id: Id;
+    name: string;
+  };
   createdAt: Date;
 }

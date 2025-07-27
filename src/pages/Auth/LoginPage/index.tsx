@@ -2,13 +2,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { login } from '../../../services/auth/login.service';
-import { HttpStatusCode } from '../../../common/enums/http.status.code.enum';
 import { useNavigate } from 'react-router-dom';
 import { setToken } from '../../../services/auth/token.service';
 import { setUser } from '../../../services/auth/user.session.service';
 import { showErrorToast } from '../../../components/ErrorToast';
 
-export default function Login() {
+export default function LoginPage() {
   const navigate = useNavigate();
 
   const initialValues = {

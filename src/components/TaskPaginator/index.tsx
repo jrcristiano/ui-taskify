@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Paginator from '../Paginator';
 
-const TaskPaginator: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10;
+const TaskPaginator = ({ pagination }: any) => {
+  const [currentPage, setCurrentPage] = useState(pagination.currentPage);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -11,10 +10,10 @@ const TaskPaginator: React.FC = () => {
 
   return (
     <div className="p-4 bg-white">
-      <Paginator 
-        currentPage={currentPage} 
-        totalPages={totalPages} 
-        onPageChange={handlePageChange} 
+      <Paginator
+        currentPage={currentPage}
+        totalPages={pagination.lastPage}
+        onPageChange={handlePageChange}
       />
     </div>
   );

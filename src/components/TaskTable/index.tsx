@@ -1,23 +1,30 @@
 import { useState, useMemo } from 'react';
-import type { ITableData } from '../../common/interfaces/ITableData';
-import type { ITableProps } from '../../common/interfaces/ITableProps';
 import type { OrderDirection } from '../../common/types/OrderDirection';
 import { TaskFilter } from '../TaskFilter';
 import { TextEllipsis } from '../TextEllipsis';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import type { Id } from '../../common/types/Id';
+import type { TablePropsInterface } from '../../common/interfaces/tasks/table.props.interface';
+import type { TaskTableDataInterface } from '../../common/interfaces/tasks/task.table.data.interface';
+import TaskPaginator from '../TaskPaginator';
+import { formatDateToGMT3 } from '../../common/utils/date';
+import { deleteTask } from '../../services/tasks/delete.task.service';
+import { HttpStatusCode } from '../../common/enums/http.status.code.enum';
+import { showSuccessToast } from '../SuccessToast';
 
-const statusColors = {
+const statusColors: any = {
   'Pendente': 'bg-yellow-100 text-yellow-700',
   'Concluída': 'bg-green-100 text-green-700',
 };
 
-export function TaskSortableTable<T extends ITableData>({
+export function TaskSortableTable<T extends TaskTableDataInterface>({
   data,
+  setData,
   columns,
   defaultSort,
-}: ITableProps<T>) {
-  console.log(columns)
+}: TablePropsInterface<T>) {
+  const navigate = useNavigate();
+
   const [sortConfig, setSortConfig] = useState<{
     key: keyof T;
     direction: OrderDirection;
@@ -72,21 +79,21 @@ export function TaskSortableTable<T extends ITableData>({
     });
   };
 
-  const handleDestroyTaskById = (id: Id) => {
+  const handleDestroyTaskById = async (id: Id) => {
     if (!confirm('Deseja mesmo excluir essa tarefa?')) {
       return;
     }
 
-    alert('Excluido ID' + id)
-  }
-
-  const handleEditTaskById = (id: Id) => {
-    if (!confirm('Deseja mesmo excluir essa tarefa?')) {
+    const res = await deleteTask(id);
+    if (res.status !== HttpStatusCode.NoContent) {
       return;
     }
 
-    alert('Editado ID: ' + id)
+    setData((prevData: any[]) => prevData.filter((task: any) => task.id !== id));
+    showSuccessToast('Tarefa removida com sucesso.');
   }
+
+  const handleEditTaskById = (id: Id) => navigate(`/task/${id}/edit`);
 
   return (
     <div className="overflow-x-auto rounded-lg shadow-lg">
@@ -116,51 +123,61 @@ export function TaskSortableTable<T extends ITableData>({
             ))}
           </tr>
         </thead>
-        <tbody className="rounded-lg bg-white divide-y divide-gray-200">
-          {sortedData.map((item, index) => (
-            <tr key={item.id} className={`rounded-lg rounded-lg ${index % 2 == 0 ? 'bg-white' : 'bg-gray-100'}`}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                {item.id}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                <TextEllipsis text={item.title} lines={1} />
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <TextEllipsis text={item.description} lines={1} />
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <span
-                  className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[item.status]}`}
-                >
-                  {item.status}
-                </span>
-              </td>
-              <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">
-                {item.createdAt.toLocaleDateString()}
-              </td>
-              <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">
-                <button
-                  onClick={() => handleEditTaskById(item.id)}
-                  className="cursor-pointer me-1 bg-[#002963] font-bold hover:opacity-90 text-white px-3 py-2 shadow-lg rounded-lg transition-colors"
-                >
-                  <i className="bi bi-pencil-fill"></i>
-                </button>
-                <button
-                  onClick={() => handleDestroyTaskById(item.id)}
-                  className="cursor-pointer bg-[#dc3545] font-bold hover:opacity-85 text-white px-3 py-2 shadow-lg rounded-lg transition-colors"
-                >
-                  <i className="bi bi-trash3-fill"></i>
-                </button>
+        {sortedData.length > 0 ? (
+          <tbody className="rounded-lg bg-white divide-y divide-gray-200">
+            {sortedData.map((item, index) => (
+              <tr key={item.id} className={`rounded-lg rounded-lg ${index % 2 == 0 ? 'bg-white' : 'bg-gray-100'}`}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                  {item.id}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                  <TextEllipsis text={item.title} lines={1} />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <TextEllipsis text={item.description || 'N/A'} lines={1} />
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span
+                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[item.status.name]}`}
+                  >
+                    {item.status?.name}
+                  </span>
+                </td>
+                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">
+                  {formatDateToGMT3(item.createdAt.toString())}
+                </td>
+                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-500">
+                  <button
+                    onClick={() => handleEditTaskById(item.id)}
+                    className="cursor-pointer me-1 bg-[#002963] font-bold hover:opacity-90 text-white px-3 py-2 shadow-lg rounded-lg transition-colors"
+                  >
+                    <i className="bi bi-pencil-fill"></i>
+                  </button>
+                  <button
+                    onClick={() => handleDestroyTaskById(item.id)}
+                    className="cursor-pointer bg-[#dc3545] font-bold hover:opacity-85 text-white px-3 py-2 shadow-lg rounded-lg transition-colors"
+                  >
+                    <i className="bi bi-trash3-fill"></i>
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          <tbody className='rounded-lg bg-white divide-y divide-gray-200'>
+            <tr>
+              <td className="bg-gray-100 text-center text-gray-800 py-4" colSpan={6}>
+                Não há tarefas a serem exibidas
               </td>
             </tr>
-          ))}
-        </tbody>
+          </tbody>
+        )}
       </table>
     </div>
   );
 }
 
-export function TaskTable({ columns, data }: any) {
+export function TaskTable({ columns, data, setData, pagination }: any) {
   return (
     <div className="">
       <div className="flex justify-between py-2">
@@ -181,9 +198,12 @@ export function TaskTable({ columns, data }: any) {
       </div>
 
       <TaskSortableTable
+        setData={setData}
         data={data}
         columns={columns}
       />
+
+      <TaskPaginator pagination={pagination} />
     </div>
   );
 }

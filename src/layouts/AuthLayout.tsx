@@ -23,7 +23,7 @@ export default function AuthLayout() {
             </Link>
           </div>
           <Outlet />
-           <ToastContainer />
+          <ToastContainer />
         </div>
       </div>
     </div>
