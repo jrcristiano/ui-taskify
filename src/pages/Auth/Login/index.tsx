@@ -3,8 +3,14 @@ import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 import { login } from '../../../services/auth/login.service';
 import { HttpStatusCode } from '../../../common/enums/http.status.code.enum';
+import { useNavigate } from 'react-router-dom';
+import { setToken } from '../../../services/auth/token.service';
+import { setUser } from '../../../services/auth/user.session.service';
+import { showErrorToast } from '../../../components/ErrorToast';
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const initialValues = {
     email: '',
     password: '',
@@ -14,23 +20,20 @@ export default function Login() {
     email: Yup.string()
       .email('E-mail inválido')
       .required('O e-mail é obrigatório'),
-    password: Yup.string().required('A senha é obrigatória'),
+    password: Yup.string()
+    .required('A senha é obrigatória'),
   });
 
   const handleSubmit = async (values: typeof initialValues) => {
     try {
-      console.log('Form data:', values);
+      const res: any = await login(values);
       
-      const res = await login(values);
+      setToken(res.data.access_token);
+      setUser(res.data.user);
 
-      if (res.status !== HttpStatusCode.OK) {
-        throw new Error('Erro ao efetuar login.');
-      }
-
-      console.log(res);
-
+      navigate('/');
     } catch (error: any) {
-      console.log(error)
+      showErrorToast(error.response.data.message);
     }
   };
 

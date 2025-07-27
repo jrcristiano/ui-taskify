@@ -1,4 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 export default function AuthLayout() {
   return (
@@ -10,8 +11,6 @@ export default function AuthLayout() {
           <p className="text-lg">Acesse sua conta ou crie uma nova para continuar.</p>
         </div>
       </div>
-
-      {/* Lado direito com o formulário */}
       <div className="flex w-full md:w-1/2 items-center justify-center p-6">
         <div className="w-full max-w-md">
           <div className="mb-6 w-full">
@@ -24,6 +23,7 @@ export default function AuthLayout() {
             </Link>
           </div>
           <Outlet />
+           <ToastContainer />
         </div>
       </div>
     </div>

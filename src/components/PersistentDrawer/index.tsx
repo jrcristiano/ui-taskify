@@ -1,9 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/svg/logo.svg';
 import { useStatusParam } from '../../hooks/use.status.param';
+import { getUser, removeUser } from '../../services/auth/user.session.service';
+import { removeToken } from '../../services/auth/token.service';
 
 export function PersistentDrawer() {
+  const navigate = useNavigate();
   const status = useStatusParam();
+
+  const user = getUser();
+
+  const handleLogout = () => {
+    removeUser();
+    removeToken();
+    navigate('/login');
+  }
 
   return (
     <aside className="w-72 h-screen bg-gradient-to-b from-[#002963] to-[#001a3d] text-white py-6 px-3 flex flex-col shadow-xl">
@@ -20,11 +31,10 @@ export function PersistentDrawer() {
             <li>
               <Link
                 to="/"
-                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${
-                  status === null || status === 'Todas'
-                    ? 'bg-[#f09700] text-white font-medium shadow-md'
-                    : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
-                }`}
+                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${status === null || status === 'Todas'
+                  ? 'bg-[#f09700] text-white font-medium shadow-md'
+                  : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
+                  }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -46,11 +56,10 @@ export function PersistentDrawer() {
             <li>
               <Link
                 to="/?status=Pendentes"
-                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${
-                  status === 'Pendentes'
-                    ? 'bg-[#f09700] text-white font-medium shadow-md'
-                    : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
-                }`}
+                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${status === 'Pendentes'
+                  ? 'bg-[#f09700] text-white font-medium shadow-md'
+                  : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
+                  }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,11 +81,10 @@ export function PersistentDrawer() {
             <li>
               <Link
                 to="/?status=Concluídas"
-                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${
-                  status === 'Concluídas'
-                    ? 'bg-[#f09700] text-white font-medium shadow-md'
-                    : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
-                }`}
+                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${status === 'Concluídas'
+                  ? 'bg-[#f09700] text-white font-medium shadow-md'
+                  : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
+                  }`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -153,6 +161,28 @@ export function PersistentDrawer() {
                 Configurações
               </Link>
             </li>
+            <li>
+              <button
+                onClick={handleLogout}
+                className="w-full cursor-pointer flex items-center p-3 rounded-lg text-gray-300 hover:bg-[#00387a] hover:text-white transition-all duration-200"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-3 text-gray-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                Sair
+              </button>
+            </li>
           </ul>
         </div>
       </nav>
@@ -160,11 +190,15 @@ export function PersistentDrawer() {
       <div className="mt-auto pt-4 border-t border-gray-700">
         <div className="flex items-center p-2 rounded-lg hover:bg-[#00387a] transition-colors cursor-pointer">
           <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center mr-3">
-            <span className="text-sm font-medium">US</span>
+            <span className="text-sm font-medium">
+              {user?.name.charAt(0)}{user?.lastname.charAt(0)}
+            </span>
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium">User Name</p>
-            <p className="text-xs text-gray-400">user@example.com</p>
+            <p className="text-sm font-medium">
+              {user?.name} {user?.lastname}
+            </p>
+            <p className="text-xs text-gray-400">{user?.email}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
