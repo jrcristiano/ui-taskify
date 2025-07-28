@@ -1,5 +1,5 @@
 export interface FormTaskInterface {
   title: string;
   description: string;
-  statusId: number;
+  statusId: number | string;
 }

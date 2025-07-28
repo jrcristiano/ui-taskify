@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/svg/logo.svg';
-import { useStatusParam } from '../../hooks/use.status.param';
 import { getUser, removeUser } from '../../services/auth/user.session.service';
 import { removeToken } from '../../services/auth/token.service';
+import { useLocation } from 'react-router-dom';
 
 export function PersistentDrawer() {
   const navigate = useNavigate();
-  const status = useStatusParam();
+  const { pathname } = useLocation();
 
   const user = getUser();
 
@@ -31,7 +31,7 @@ export function PersistentDrawer() {
             <li>
               <Link
                 to="/"
-                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${status === null || status === 'Todas'
+                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${pathname === '/'
                   ? 'bg-[#f09700] text-white font-medium shadow-md'
                   : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
                   }`}
@@ -51,56 +51,6 @@ export function PersistentDrawer() {
                   />
                 </svg>
                 Tarefas
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/?status=Pendentes"
-                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${status === 'Pendentes'
-                  ? 'bg-[#f09700] text-white font-medium shadow-md'
-                  : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
-                  }`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-3"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                Pendentes
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/?status=Concluídas"
-                className={`flex items-center p-3 rounded-lg transition-all duration-200 ${status === 'Concluídas'
-                  ? 'bg-[#f09700] text-white font-medium shadow-md'
-                  : 'text-gray-300 hover:bg-[#00387a] hover:text-white'
-                  }`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-3"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                Concluídas
               </Link>
             </li>
           </ul>

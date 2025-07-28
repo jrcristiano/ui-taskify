@@ -40,7 +40,6 @@ const CreateTaskPage = () => {
       }
     } catch (error) {
       showErrorToast('Ocorreu um erro ao salvar a tarefa. Por favor, tente novamente.');
-      console.error('Error submitting form:', error);
     } finally {
       setIsSubmitting(false);
     }

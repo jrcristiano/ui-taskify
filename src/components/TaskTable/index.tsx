@@ -20,6 +20,8 @@ const statusColors: any = {
 export function TaskSortableTable<T extends TaskTableDataInterface>({
   data,
   setData,
+  filter,
+  setFilter,
   columns,
   defaultSort,
 }: TablePropsInterface<T>) {
@@ -177,7 +179,14 @@ export function TaskSortableTable<T extends TaskTableDataInterface>({
   );
 }
 
-export function TaskTable({ columns, data, setData, pagination }: any) {
+export function TaskTable({
+  columns,
+  data,
+  setData,
+  filter,
+  setFilter,
+  pagination,
+}: any) {
   return (
     <div className="">
       <div className="flex justify-between py-2">
@@ -194,16 +203,25 @@ export function TaskTable({ columns, data, setData, pagination }: any) {
       </div>
 
       <div className="w-full">
-        <TaskFilter />
+        <TaskFilter
+          filter={filter}
+          setFilter={setFilter}
+        />
       </div>
 
       <TaskSortableTable
-        setData={setData}
         data={data}
+        setData={setData}
+        filter={filter}
+        setFilter={setFilter}
         columns={columns}
       />
 
-      <TaskPaginator pagination={pagination} />
+      <TaskPaginator
+        filter={filter}
+        setFilter={setFilter}
+        pagination={pagination}
+      />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 export const TaskStatus = {
+  ALL: 0,
   PENDING: 1,
   DONE: 2,
 } as const;

@@ -71,7 +71,6 @@ const EditTaskPage = () => {
         }
       } catch (error) {
         showErrorToast('Ocorreu um erro ao carregar a tarefa. Por favor, tente novamente.');
-        console.error('Error fetching task:', error);
       } finally {
         setIsLoading(false);
       }

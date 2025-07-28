@@ -6,6 +6,7 @@ import { TaskTable } from "../../../components/TaskTable";
 import { getPaginatedTasks } from "../../../services/tasks/get.paginated.tasks.service";
 import { showErrorToast } from "../../../components/ErrorToast";
 import type { PaginationInterface } from "../../../common/interfaces/pagination/pagination.interface";
+import { TaskStatus } from "../../../common/enums/task.status.enum";
 
 const columns: TableColumnInterface<TaskInterface>[] = [
   { key: 'id', title: 'id', sortable: true },
@@ -19,10 +20,17 @@ const columns: TableColumnInterface<TaskInterface>[] = [
 export default function PaginatedTaskPage() {
   const [tasks, setTasks] = useState<TaskTableDataInterface[]>([]);
   const [pagination, setPagination] = useState<PaginationInterface>({} as PaginationInterface);
+  const [filter, setFilter] = useState({
+    search: '',
+    status: TaskStatus.ALL,
+    page: 1
+  });
 
   const handleGetPaginatedTasks = async () => {
     try {
-      const res: any = await getPaginatedTasks();
+      const res: any = await getPaginatedTasks({
+        ...filter,
+      });
       setTasks(res.data.data);
       setPagination(res.data.meta);
     } catch (error) {
@@ -32,11 +40,13 @@ export default function PaginatedTaskPage() {
 
   useEffect(() => {
     handleGetPaginatedTasks();
-  }, []);
+  }, [filter]);
 
   return (
     <>
       <TaskTable
+        filter={filter}
+        setFilter={setFilter}
         columns={columns}
         setData={setTasks}
         data={tasks}
