@@ -1,39 +1,132 @@
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { register } from '../../../services/auth/register.service'; // Supondo que exista um serviço de registro
+import { setToken } from '../../../services/auth/token.service';
+import { setUser } from '../../../services/auth/user.session.service';
+import { showErrorToast } from '../../../components/ErrorToast';
+import { showSuccessToast } from '../../../components/SuccessToast';
+import { HttpStatusCode } from '../../../common/enums/http.status.code.enum';
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+
+  const initialValues = {
+    name: '',
+    lastname: '',
+    email: '',
+    password: '',
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .required('O nome é obrigatório')
+      .min(3, 'O nome deve ter pelo menos 3 caracteres'),
+    lastname: Yup.string()
+      .required('O sobrenome é obrigatório')
+      .min(3, 'O sobrenome deve ter pelo menos 3 caracteres'),
+    email: Yup.string()
+      .email('E-mail inválido')
+      .required('O e-mail é obrigatório'),
+    password: Yup.string()
+      .required('A senha é obrigatória')
+      .min(8, 'A senha deve ter pelo menos 8 caracteres'),
+  });
+
+  const handleSubmit = async (values: typeof initialValues) => {
+    try {
+       await register(values as any);
+      navigate('/login');
+      showSuccessToast('Usuário cadastrado com sucesso.');
+    } catch (error: any) {
+      if (error.response.status === HttpStatusCode.Conflict) {
+        showErrorToast('O e-mail informado já está em uso.');
+        return;
+      }
+
+      showErrorToast('Erro ao cadastrar usuário.');
+    }
+  };
+
   return (
     <div>
       <h1 className="text-3xl font-semibold mb-6">Criar conta</h1>
-      <form className="space-y-4">
-        <div className="flex gap-4">
-          <input
-            type="text"
-            placeholder="Nome"
-            className="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#f09700]"
-          />
-          <input
-            type="text"
-            placeholder="Sobrenome"
-            className="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#f09700]"
-          />
-        </div>
-        <input
-          type="email"
-          placeholder="E-mail"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#f09700]"
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#f09700]"
-        />
-        <button
-          type="submit"
-          className="w-full cursor-pointer bg-[#002963] text-white py-2 rounded-md hover:opacity-90"
-        >
-          Cadastrar
-        </button>
-      </form>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form className="space-y-4">
+            <div className="flex gap-4">
+              <div className="w-1/2">
+                <Field
+                  type="text"
+                  name="name"
+                  placeholder="Nome"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#f09700]"
+                />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className="text-red-500 text-sm mt-2"
+                />
+              </div>
+              <div className="w-1/2">
+                <Field
+                  type="text"
+                  name="lastname"
+                  placeholder="Sobrenome"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#f09700]"
+                />
+                <ErrorMessage
+                  name="lastname"
+                  component="div"
+                  className="text-red-500 text-sm mt-2"
+                />
+              </div>
+            </div>
+
+            <div>
+              <Field
+                type="email"
+                name="email"
+                placeholder="E-mail"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#f09700]"
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-500 text-sm mt-2"
+              />
+            </div>
+
+            <div>
+              <Field
+                type="password"
+                name="password"
+                placeholder="Senha"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#f09700]"
+              />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-500 text-sm mt-2"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full cursor-pointer bg-[#002963] text-white py-2 rounded-md hover:opacity-90"
+            >
+              {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
+            </button>
+          </Form>
+        )}
+      </Formik>
+
       <p className="text-center text-sm mt-4">
         Já tem uma conta?
         <Link

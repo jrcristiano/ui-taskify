@@ -54,12 +54,6 @@ export function TaskFilter({
           Concluídas
         </option>
       </select>
-
-      <button
-        className="bg-[#002963] cursor-pointer px-4 shadow py-2 rounded-lg flex items-center justify-center text-white hover:opacity-85 transition-opacity"
-      >
-        <i className="bi bi-search" />
-      </button>
     </div>
   );
 }
