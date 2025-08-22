@@ -37,7 +37,6 @@ const Paginator: React.FC<PaginatorProps> = ({
 
   return (
     <div className={`flex items-center justify-center space-x-1 ${className}`}>
-      {/* Primeira página */}
       <button
         onClick={() => onPageChange(1)}
         disabled={currentPage === 1}
@@ -49,7 +48,6 @@ const Paginator: React.FC<PaginatorProps> = ({
         <i className="bi bi-chevron-double-left"></i>
       </button>
 
-      {/* Página anterior */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -61,7 +59,6 @@ const Paginator: React.FC<PaginatorProps> = ({
         <i className="bi bi-chevron-left"></i>
       </button>
 
-      {/* Páginas numeradas */}
       {visiblePages.map((page) => (
         <button
           key={page}
@@ -75,7 +72,6 @@ const Paginator: React.FC<PaginatorProps> = ({
         </button>
       ))}
 
-      {/* Próxima página */}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
@@ -87,7 +83,6 @@ const Paginator: React.FC<PaginatorProps> = ({
         <i className="bi bi-chevron-right"></i>
       </button>
 
-      {/* Última página */}
       <button
         onClick={() => onPageChange(totalPages)}
         disabled={currentPage === totalPages}

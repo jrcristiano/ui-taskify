@@ -54,7 +54,6 @@ const CreateTaskPage = () => {
     <div className="mx-auto p-4 bg-white rounded-lg">
       <h1 className="text-4xl font-bold text-gray-800 mb-6">Nova tarefa</h1>
       <form onSubmit={formik.handleSubmit} className="space-y-4">
-        {/* Campo Título */}
         <div>
           <label htmlFor="title" className="block text-sm font-bold text-gray-700">
             Título <span className="text-red-500">*</span>
@@ -73,7 +72,6 @@ const CreateTaskPage = () => {
           ) : null}
         </div>
 
-        {/* Campo Descrição */}
         <div>
           <label htmlFor="description" className="block text-sm font-bold text-gray-700">
             Descrição
@@ -89,7 +87,6 @@ const CreateTaskPage = () => {
           />
         </div>
 
-        {/* Campo Status */}
         <div>
           <label htmlFor="statusId" className="block text-sm font-bold text-gray-700">
             Status <span className="text-red-500">*</span>

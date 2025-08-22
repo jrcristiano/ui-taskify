@@ -14,9 +14,7 @@ export default function DefaultLayout() {
   return (
     <div className="flex h-screen bg-white">
       <PersistentDrawer />
-      {/* Conteúdo principal */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
         <header className="bg-white shadow-sm">
           <div className="px-4 py-4 flex items-center justify-between">
             <button
