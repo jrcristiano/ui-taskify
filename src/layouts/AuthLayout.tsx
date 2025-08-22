@@ -4,7 +4,6 @@ import { ToastContainer } from 'react-toastify';
 export default function AuthLayout() {
   return (
     <div className="min-h-screen flex">
-      {/* Lado esquerdo com imagem ou cor */}
       <div className="hidden md:flex w-1/2 bg-gradient-to-b from-[#F09700] to-[#9c6200] items-center justify-center text-white p-10">
         <div className="max-w-md">
           <h2 className="text-4xl font-bold mb-4">Bem-vindo de volta!</h2>

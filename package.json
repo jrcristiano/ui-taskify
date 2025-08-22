@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "rm:comments": "ts-node ./scripts/rm-comments.ts ./src",
     "lint": "eslint .",
     "preview": "vite preview"
   },
