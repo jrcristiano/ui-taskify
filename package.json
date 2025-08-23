@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "rm:comments": "ts-node ./scripts/rm-comments.ts ./src",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && npx vercel ./build --confirm --no-clipboard",
+    "deploy:prod": "npm run deploy --prod --token=$VERCEL_TOKEN"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
