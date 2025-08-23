@@ -1,16 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import 'react-toastify/dist/ReactToastify.css';
-import './index.css'
+import './index.css';
 
-import { Suspense, lazy } from 'react';
-import { createBrowserRouter, RouterProvider, type RouteObject } from 'react-router-dom';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
+import { lazy, Suspense } from 'react';
+import { createBrowserRouter, RouterProvider, type RouteObject } from 'react-router-dom';
 
-import AuthLayout from './layouts/AuthLayout';
-import LoginPage from './pages/Auth/LoginPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import AuthLayout from './layouts/AuthLayout';
 import DefaultLayout from './layouts/DefaultLayout';
+import LoginPage from './pages/Auth/LoginPage';
 
 const RegisterPage = lazy(() => import('./pages/Auth/RegisterPage'));
 const PaginatedTaskPage = lazy(() => import('./pages/Tasks/PaginatedTaskPage'));
@@ -29,7 +29,7 @@ const routes: RouteObject[] = [
       {
         index: true,
         element: (
-          <Suspense fallback={<p>Carregando...</p>}>
+          <Suspense fallback={<p>Loading...</p>}>
             <PaginatedTaskPage />
           </Suspense>
         ),
@@ -37,7 +37,7 @@ const routes: RouteObject[] = [
       {
         path: '/task/create',
         element: (
-          <Suspense fallback={<p>Carregando...</p>}>
+          <Suspense fallback={<p>Loading...</p>}>
             <CreateTaskPage />
           </Suspense>
         ),
@@ -45,7 +45,7 @@ const routes: RouteObject[] = [
       {
         path: '/task/:id/edit',
         element: (
-          <Suspense fallback={<p>Carregando...</p>}>
+          <Suspense fallback={<p>Loading...</p>}>
             <EditTaskPage />
           </Suspense>
         ),
@@ -63,7 +63,7 @@ const routes: RouteObject[] = [
       {
         path: 'register',
         element: (
-          <Suspense fallback={<div>Carregando...</div>}>
+          <Suspense fallback={<div>Loading...</div>}>
             <RegisterPage />
           </Suspense>
         ),
