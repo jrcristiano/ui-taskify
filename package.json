@@ -4,12 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npx vite",
-    "build": "rm -rf ./dist && tsc -b && npx vite build",
+    "dev": "node_modules/.bin/vite",
+    "build": "rm -rf ./dist && tsc -b && node_modules/.bin/vite build",
     "rm:comments": "ts-node ./scripts/rm-comments.ts ./src",
     "lint": "eslint .",
-    "preview": "npx vite preview",
-    "deploy:prod": "npm run build && npx vercel ./dist --yes --no-clipboard --token=$VERCEL_TOKEN --prod"
+    "preview": "node_modules/.bin/vite preview",
+    "deploy:prod": "npm run build && node_modules/.bin/vercel ./dist --yes --no-clipboard --token=$VERCEL_TOKEN --prod"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
