@@ -77,7 +77,7 @@ const EditTaskPage = () => {
   }, [id, formik]);
 
   if (isLoading) {
-    return <div className="mx-auto p-4 bg-white rounded-lg">Carregando...</div>;
+    return <div className="mx-auto p-4 bg-white rounded-lg">Loading...</div>;
   }
 
   return (
