@@ -18,7 +18,7 @@ jobs:
       - name: Run lint
         run: npm run lint
 
-    staging:
+    preview:
       runs-on: ubuntu-latest
 
       steps:
