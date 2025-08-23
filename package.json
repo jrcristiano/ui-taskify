@@ -9,7 +9,7 @@
     "rm:comments": "ts-node ./scripts/rm-comments.ts ./src",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "npm run build && npx vercel ./build --confirm --no-clipboard",
+    "deploy": "npm run build && npx vercel ./build --yes --no-clipboard",
     "deploy:prod": "npm run deploy --prod --token=$VERCEL_TOKEN"
   },
   "dependencies": {
