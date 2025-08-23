@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "rm -rf ./dist && tsc -b && vite build",
     "rm:comments": "ts-node ./scripts/rm-comments.ts ./src",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "npm run build && npx vercel ./build --yes --no-clipboard",
-    "deploy:prod": "npm run deploy --prod --token=$VERCEL_TOKEN"
+    "deploy": "npm run build && npx vercel ./dist --yes --no-clipboard",
+    "deploy:prod": "npm run build && vercel ./dist --yes --no-clipboard --token=$VERCEL_TOKEN --prod"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
