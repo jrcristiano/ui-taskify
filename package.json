@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf ./dist && tsc -b && vite build",
+    "build": "rm -rf ./dist && tsc -b && npm run build",
     "rm:comments": "ts-node ./scripts/rm-comments.ts ./src",
     "lint": "eslint .",
     "preview": "vite preview",
